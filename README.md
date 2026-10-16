@@ -1,3 +1,26 @@
+# Map Link Converter v1.2.0 — Firebase test branch
+
+**Testing only — do not merge into main before acceptance testing.**
+
+- Firebase Google popup login and per-user Firestore collection `users/{uid}/places/{placeId}`.
+- Local backup snapshot before migration; JSON export/import; remove 30-place cap.
+- Sync changes with offline local queue, 30-day soft-delete trash and restore.
+- Logout hides cloud places and leaves local-only places visible.
+- Family sharing is intentionally not enabled.
+
+## Validation gates
+
+1. Verify Google Auth authorized domains for staging host and production GitHub Pages.
+2. Test Safari desktop/iPhone and installed PWA; popup restrictions may require alternative auth UX.
+3. Backup local data separately from each device; verify imported names, coordinates and URLs.
+4. Verify first-login migration, cloud merge, offline queue, cross-device deletion, trash restore and account switching.
+5. Check Firestore rules, permission denied paths, failed writes and storage quota.
+6. Only deploy to production after isolated staging environment and data restore tests.
+
+## Notes
+
+This is an initial test implementation. Automatic snapshot is stored locally under `mlc-initial-backup-v1.2.0`; it is not a guaranteed remote backup. JSON export is recommended before use. Firebase web config is public; never commit service account credentials.
+
 # Map Link Converter v1.1.9
 
 Apple Maps 공유 링크에서 기본 장소 이름, 한국어·영어·일본어 이름(링크에 포함된 경우), 위도·경도, 주소를 추출하는 정적 웹앱입니다.

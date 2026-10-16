@@ -36,3 +36,6 @@
 
 /* v1.1.9: unified map icons and place-name speech */
 .history-heading .history-title{flex:1;min-width:0}.history-speak{flex:none;width:36px;height:36px;min-width:36px;padding:7px;display:flex;align-items:center;justify-content:center;border-radius:10px;touch-action:manipulation}.history-speak[hidden]{display:none!important}.history-speak .lucide-icon{width:18px;height:18px;pointer-events:none}.history-speak.speaking{background:#e2edff;border-color:#5688c6;color:#315c91}.history-actions button .lucide-icon{width:14px;height:14px}
+
+/* v1.2.0 cloud controls */
+.cloud-actions{display:flex;flex-wrap:wrap;gap:8px}.cloud-actions button,.cloud-import{min-height:38px}.cloud-import{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;border:1px solid #c8d5e6;border-radius:10px;cursor:pointer;font-size:14px}.cloud-panel p{margin:8px 0}.cloud-actions [hidden]{display:none!important}
