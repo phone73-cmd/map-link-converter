@@ -17,7 +17,13 @@ previewPlace=r;document.querySelector('input[name="travelMode"][value="transit"]
 $("mapDialog").showModal();}
 async function copy(s){try{if(!s)throw Error();await navigator.clipboard.writeText(s);$("message").textContent="클립보드에 복사했습니다."}catch{$("message").textContent="복사 실패: HTTPS 또는 브라우저 권한을 확인하세요."}}
 function localHistory(){try{const data=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(data)?data.filter(x=>{try{return new URL(x.url).hostname.toLowerCase()==="maps.apple.com"}catch{return false}}):[]}catch{return []}}
-function history(){const local=localHistory();const cloud=window.MLCCloud?.items||[];const urls=new Set([...(window.MLCCloud?.all||[]),...cloud].map(r=>r.url));return [...cloud,...local.filter(r=>!urls.has(r.url))]}
+const SORT_KEY="mlc-place-sort-v1";
+const validSort=new Set(["recent","oldest","name-asc","name-desc"]);
+let sortMode=(()=>{try{const value=localStorage.getItem(SORT_KEY);return validSort.has(value)?value:"recent"}catch{return"recent"}})();
+const placeTime=r=>{const v=r.updatedAt??r.savedAt??r.createdAt??0;const n=typeof v==="number"?v:typeof v==="string"?(Number(v)||Date.parse(v)||0):v&&typeof v.toMillis==="function"?v.toMillis():0;return Number.isFinite(n)?n:0};
+const nameCollator=new Intl.Collator(["ko","ja","en"],{numeric:true,sensitivity:"base"});
+function history(){const local=localHistory();const cloud=window.MLCCloud?.items||[];const urls=new Set([...(window.MLCCloud?.all||[]),...cloud].map(r=>r.url));const rows=[...cloud,...local.filter(r=>!urls.has(r.url))];return rows.map((r,i)=>({r,i})).sort((a,b)=>{const cmp=sortMode==="name-asc"||sortMode==="name-desc"?nameCollator.compare(String(a.r.name||a.r.koreanName||a.r.englishName||a.r.japaneseName||""),String(b.r.name||b.r.koreanName||b.r.englishName||b.r.japaneseName||""))*(sortMode==="name-desc"?-1:1):(placeTime(a.r)-placeTime(b.r))*(sortMode==="oldest"?1:-1);return cmp||a.i-b.i}).map(x=>x.r)}
+
 function store(h){try{const before=localHistory();if(before.length){const bk="mlc-backups-local";const snapshots=JSON.parse(localStorage.getItem(bk)||"[]");snapshots.push({at:new Date().toISOString(),rows:before});localStorage.setItem(bk,JSON.stringify(snapshots.slice(-5)))}localStorage.setItem(KEY,JSON.stringify(h.map(r=>{const {placeId,...clean}=r;return clean})))}catch{$("message").textContent="저장 공간을 사용할 수 없습니다.";return false}selectionMode=false;selected.clear();renderHistory();return true}
 function field(label,val){const row=document.createElement("div"),left=document.createElement("div"),small=document.createElement("small"),value=document.createElement("div"),btn=document.createElement("button");row.className="field";small.textContent=label;value.className="value";value.textContent=val==null||val===""?"확인 불가":String(val);left.append(small,value);btn.className="secondary";btn.type="button";btn.textContent="복사";btn.disabled=val==null||val==="";btn.onclick=()=>copy(String(val));row.append(left,btn);longPress(value,()=>val);return row}
 const languages=[["koreanName","한국어"],["englishName","영어"],["japaneseName","일본어"]];
@@ -42,7 +48,9 @@ for(const [id] of languages){const copyId="copy"+id[0].toUpperCase()+id.slice(1)
 $("analyze").onclick=()=>{current=null;$("result").hidden=true;try{show(MapLinkParser.parseMapLink($("url").value))}catch(e){$("message").textContent=e.message}};
 $("clear").onclick=()=>{$("url").value="";$("result").hidden=true;current=null;$("message").textContent="새 링크를 입력해 주세요."};
 $("openGoogle").onclick=()=>{if(current?.coords)window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(coordText(current)),"_blank","noopener,noreferrer")};$("openApple").onclick=()=>{if(current?.coords)window.open("https://maps.apple.com/?ll="+encodeURIComponent(coordText(current))+"&q="+encodeURIComponent(current.name||"선택한 위치"),"_blank","noopener,noreferrer")};
-$("save").onclick=()=>{if(!current)return;if(window.MLCCloud?.uid){window.MLCCloud.save({...current,updatedAt:Date.now()});renderHistory()}else{const h=localHistory().filter(x=>x.url!==current.url);h.unshift({...current});store(h)}$("message").textContent="장소 목록에 저장했습니다."};
+$("save").onclick=()=>{if(!current)return;if(window.MLCCloud?.uid){window.MLCCloud.save({...current,updatedAt:Date.now()});renderHistory()}else{const h=localHistory().filter(x=>x.url!==current.url);h.unshift({...current,updatedAt:Date.now()});store(h)}$("message").textContent="장소 목록에 저장했습니다."};
+$("placeSort").value=sortMode;
+$("placeSort").onchange=()=>{sortMode=validSort.has($("placeSort").value)?$("placeSort").value:"recent";try{localStorage.setItem(SORT_KEY,sortMode)}catch{}renderHistory()};
 $("selectAll").onchange=()=>{if($("selectAll").checked)history().forEach(r=>selected.add(r.url));else selected.clear();renderHistory()};
 $("enterSelection").onclick=()=>{selectionMode=true;selected.clear();renderHistory()};$("cancelSelection").onclick=exitSelection;
 $("deleteSelected").onclick=()=>{if(!selected.size)return;if(confirm("선택한 "+selected.size+"개 장소를 삭제할까요?"))deleteSelectedPlaces()};
