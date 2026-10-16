@@ -10,8 +10,8 @@ function longPress(el,getText){if(!("ontouchstart"in window)&&navigator.maxTouch
 
 function updateDirections(){if(!previewPlace)return;const mode=document.querySelector('input[name="travelMode"]:checked')?.value||"transit";$("externalGoogle").href=googleUrl(previewPlace,mode);$("externalApple").href=appleUrl(previewPlace,mode)}
 function openMap(r,kind){if(!r?.coords)return;const {lat,lng}=r.coords;if(!Number.isFinite(Number(lat))||!Number.isFinite(Number(lng)))return;
-const delta=.012;const bbox=[Number(lng)-delta,Number(lat)-delta,Number(lng)+delta,Number(lat)+delta].join(",");
-$("mapFrame").src="https://www.openstreetmap.org/export/embed.html?bbox="+encodeURIComponent(bbox)+"&layer=mapnik&marker="+encodeURIComponent(coordText(r));
+const coordinate=Number(lat)+","+Number(lng);
+$("mapFrame").src="https://maps.google.com/maps?q="+encodeURIComponent(coordinate)+"&z=16&output=embed";
 $("mapDialogTitle").textContent="지도 미리보기";$("mapDialogSubtitle").textContent=(r.name||"이름 없는 장소")+" · "+coordText(r);
 previewPlace=r;document.querySelector('input[name="travelMode"][value="transit"]').checked=true;updateDirections();
 $("mapDialog").showModal();}
