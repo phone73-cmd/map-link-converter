@@ -2,7 +2,7 @@
 const $=id=>document.getElementById(id),KEY="map-link-converter-history-v1";let current=null;const selected=new Set();
 const coordText=r=>r?.coords?r.coords.lat+", "+r.coords.lng:"";
 const googleUrl=(r,mode)=>"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(coordText(r))+"&travelmode="+encodeURIComponent(mode);
-const appleUrl=(r,mode)=>"https://maps.apple.com/?daddr="+encodeURIComponent(coordText(r))+"&dirflg="+({transit:"r",walking:"w",driving:"d"}[mode]||"r");
+const appleUrl=(r,mode)=>{const coords=coordText(r),name=String(r.japaneseName||r.englishName||r.koreanName||r.name||"").trim();return "https://maps.apple.com/?daddr="+encodeURIComponent(coords)+(name?"&q="+encodeURIComponent(name):"")+"&dirflg="+({transit:"r",walking:"w",driving:"d"}[mode]||"r")};
 let previewPlace=null;
 function updateDirections(){if(!previewPlace)return;const mode=document.querySelector('input[name="travelMode"]:checked')?.value||"transit";$("externalGoogle").href=googleUrl(previewPlace,mode);$("externalApple").href=appleUrl(previewPlace,mode)}
 function openMap(r,kind){if(!r?.coords)return;const {lat,lng}=r.coords;if(!Number.isFinite(Number(lat))||!Number.isFinite(Number(lng)))return;
