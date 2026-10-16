@@ -11,7 +11,8 @@ const stableId=r=>{const s=String(r.url||r.name||"");let h=2166136261;for(let i=
 const normalize=r=>({...r,id:r.id||stableId(r),deletedAt:r.deletedAt||null,updatedAt:r.updatedAt||Date.now()});
 const merge=(a,b)=>{const map=new Map();for(const r of [...a,...b]){const x=normalize(r),old=map.get(x.id);if(!old||Number(x.updatedAt)>=Number(old.updatedAt))map.set(x.id,x)}return [...map.values()]};
 function paint(message){$("cloudStatus").textContent=message;const list=merge(remote,pending).filter(r=>!r.deletedAt);window.MLCCloud?.onChange?.(list)}
-function setCache(){if(uid)write(cacheKey(uid),remote)}
+function setCache(){if(uid){const old=read(cacheKey(uid));if(old.length&&JSON.stringify(old)!==JSON.stringify(remote))snapshot("cloud-"+uid,old);write(cacheKey(uid),remote)}}
+function snapshot(scope,rows){try{const key="mlc-backups-"+scope;const history=read(key);history.push({at:new Date().toISOString(),rows});write(key,history.slice(-5))}catch{}}
 function setQueue(){if(uid)write(queueKey(uid),pending)}
 function enqueue(r){if(!uid)return;const item=normalize(r);pending=merge(pending.filter(x=>x.id!==item.id),[item]);setQueue();paint(online()?"동기화 중…":"오프라인: 연결 후 동기화");void flush()}
 let busy=false;
@@ -28,4 +29,5 @@ $("cloudTrash").onclick=()=>{const trash=window.MLCCloud.trash;if(!uid){alert("�
 $("cloudExport").onclick=()=>{const data={format:"map-link-converter-v1.2.0",exportedAt:new Date().toISOString(),local:window.MLCCloud.getLocal?.()||[],cloud:window.MLCCloud.items,trash:window.MLCCloud.trash};const a=document.createElement("a"),blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});a.href=URL.createObjectURL(blob);a.download="map-link-converter-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 $("cloudImport").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(data.format!=="map-link-converter-v1.2.0"||!Array.isArray(data.local)||!Array.isArray(data.cloud))throw Error("파일 형식 오류");if(!confirm("백업에서 로컬 장소를 병합하고 로그인 중인 경우 클라우드 장소도 병합할까요?"))return;window.MLCCloud.importLocal?.(data.local);if(uid)for(const r of data.cloud)enqueue({...r,updatedAt:Date.now()});paint("백업 가져오기 완료")}catch(err){alert("가져오기 실패: "+err.message)}finally{e.target.value=""}};
 window.addEventListener("online",()=>void flush());
+window.dispatchEvent(new Event("mlc-cloud-ready"));
 onAuthStateChanged(auth,subscribe);
