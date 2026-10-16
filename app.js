@@ -2,8 +2,13 @@
 const $=id=>document.getElementById(id),KEY="map-link-converter-history-v1";let current=null;const selected=new Set();
 const coordText=r=>r?.coords?r.coords.lat+", "+r.coords.lng:"";
 const googleUrl=r=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(coordText(r));
-const appleUrl=r=>"https://maps.apple.com/?ll="+encodeURIComponent(coordText(r));
-function openMap(r,kind){if(!r?.coords)return;window.open(kind==="google"?googleUrl(r):appleUrl(r),"_blank","noopener,noreferrer")}
+const appleUrl=r=>"https://maps.apple.com/?q="+encodeURIComponent(coordText(r))+"&ll="+encodeURIComponent(coordText(r));
+function openMap(r,kind){if(!r?.coords)return;const {lat,lng}=r.coords;if(!Number.isFinite(Number(lat))||!Number.isFinite(Number(lng)))return;
+const delta=.012;const bbox=[Number(lng)-delta,Number(lat)-delta,Number(lng)+delta,Number(lat)+delta].join(",");
+$("mapFrame").src="https://www.openstreetmap.org/export/embed.html?bbox="+encodeURIComponent(bbox)+"&layer=mapnik&marker="+encodeURIComponent(coordText(r));
+$("mapDialogTitle").textContent="지도 미리보기";$("mapDialogSubtitle").textContent=(r.name||"이름 없는 장소")+" · "+coordText(r);
+$("externalGoogle").href=googleUrl(r);$("externalApple").href=appleUrl(r);
+$("mapDialog").showModal();}
 async function copy(s){try{if(!s)throw Error();await navigator.clipboard.writeText(s);$("message").textContent="클립보드에 복사했습니다."}catch{$("message").textContent="복사 실패: HTTPS 또는 브라우저 권한을 확인하세요."}}
 function history(){try{const data=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(data)?data.filter(x=>{try{return new URL(x.url).hostname.toLowerCase()==="maps.apple.com"}catch{return false}}):[]}catch{return []}}
 function store(h){try{localStorage.setItem(KEY,JSON.stringify(h.map(r=>{const {placeId,...clean}=r;return clean})))}catch{$("message").textContent="저장 공간을 사용할 수 없습니다."}selected.clear();renderHistory()}
@@ -26,5 +31,5 @@ $("save").onclick=()=>{if(!current)return;const h=history().filter(x=>x.url!==cu
 $("selectAll").onchange=()=>{if($("selectAll").checked)history().forEach(r=>selected.add(r.url));else selected.clear();renderHistory()};
 $("deleteSelected").onclick=()=>{if(!selected.size)return;if(confirm("선택한 "+selected.size+"개 장소를 삭제할까요?"))store(history().filter(r=>!selected.has(r.url)))};
 $("clearHistory").onclick=()=>{if(confirm("저장된 장소를 모두 삭제할까요?"))store([])};
-renderHistory();if("serviceWorker"in navigator&&location.protocol==="https:")window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}))
+$("closeMap").onclick=()=>$("mapDialog").close();$("mapDialog").addEventListener("close",()=>{$("mapFrame").removeAttribute("src")});$("mapDialog").addEventListener("click",e=>{if(e.target===$("mapDialog"))$("mapDialog").close()});renderHistory();if("serviceWorker"in navigator&&location.protocol==="https:")window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}))
 })();

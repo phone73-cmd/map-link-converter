@@ -1,4 +1,4 @@
-# Map Link Converter v1.0.10
+# Map Link Converter v1.1.0
 
 Apple Maps 공유 링크에서 기본 장소 이름, 한국어·영어·일본어 이름(링크에 포함된 경우), 위도·경도, 주소를 추출하는 정적 웹앱입니다.
 
@@ -28,3 +28,11 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 ## 변경 사항 (v1.0.10)
 - 링크 분석·지우기 버튼 위치 교체
 - 초기 안내 문구 '공유 링크를 입력하세요.' 삭제 (오류·완료 메시지는 유지)
+
+## 변경 사항 (v1.1.0)
+- 지우기 버튼을 기존 secondary 스타일로 통일
+- Apple Maps URL에 좌표 기반 q 및 ll 파라미터를 함께 사용해 좌표 핀 표시
+- 분석 결과와 저장 목록의 Google Maps/Apple Maps 버튼을 누르면 앱 내부 dialog에서 OpenStreetMap 좌표 핀 미리보기 표시
+- 미리보기 안에서 Google Maps/Apple Maps 외부 앱/웹으로 각각 열기 제공
+- Google Maps/Apple Maps 웹페이지 자체를 iframe에 삽입하지 않음 (임베딩 제한 회피)
+- 지도 미리보기에는 인터넷 연결이 필요하며, 기존 Apple Maps 전용 URL 분석은 유지

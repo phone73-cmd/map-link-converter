@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#eef5ff"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./assets/icon.svg"><link rel="apple-touch-icon" href="./assets/apple-touch-icon.png"><link rel="stylesheet" href="./styles.css?v=1.0.10"><title>Map Link Converter v1.0.10</title></head>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#eef5ff"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./assets/icon.svg"><link rel="apple-touch-icon" href="./assets/apple-touch-icon.png"><link rel="stylesheet" href="./styles.css?v=1.1.0"><title>Map Link Converter v1.1.0</title></head>
 <body><main class="shell">
-<header><span class="logo">⌖</span><div><h1>Map Link Converter</h1><p>Apple 지도 링크를 간편한 장소 정보로</p></div><span class="version">v1.0.10</span></header>
-<section class="panel"><div class="heading"><h2>지도 링크 입력</h2><span class="tag">Apple Maps 전용</span></div><label for="url">공유 링크</label><textarea id="url" placeholder="Apple Maps 공유 링크를 붙여넣으세요."></textarea><div class="actions input-actions"><button id="analyze" class="primary" type="button">링크 분석</button><button id="clear" class="ghost" type="button">지우기</button></div><p id="message" role="status"></p></section>
+<header><span class="logo">⌖</span><div><h1>Map Link Converter</h1><p>Apple 지도 링크를 간편한 장소 정보로</p></div><span class="version">v1.1.0</span></header>
+<section class="panel"><div class="heading"><h2>지도 링크 입력</h2><span class="tag">Apple Maps 전용</span></div><label for="url">공유 링크</label><textarea id="url" placeholder="Apple Maps 공유 링크를 붙여넣으세요."></textarea><div class="actions input-actions"><button id="analyze" class="primary" type="button">링크 분석</button><button id="clear" class="secondary" type="button">지우기</button></div><p id="message" role="status"></p></section>
 <section id="result" class="panel" hidden><div class="heading"><h2>분석 결과</h2><span id="provider" class="tag"></span></div>
 <div id="nameField"></div>
 <details id="languages" class="languages"><summary><span class="language-icon" aria-hidden="true">文</span><span class="language-summary"><strong id="languageTitle">다국어 장소 이름 (0)</strong><small id="languagePreview">등록된 이름 없음</small></span><span class="chevron" aria-hidden="true">⌄</span></summary><div class="language-fields">
@@ -13,5 +13,10 @@
 <div id="otherFields"></div><p id="warning" class="notice" hidden></p>
 <div class="map-actions"><button id="openGoogle" class="secondary" type="button">Google Maps ↗</button><button id="openApple" class="secondary" type="button">Apple Maps ↗</button></div><div class="actions"><button id="save" class="primary" type="button">목록에 저장</button></div></section>
 <section class="panel"><div class="heading"><h2>장소 목록</h2><button id="clearHistory" class="ghost" type="button">전체 삭제</button></div><div id="historyTools" class="history-tools" hidden><label class="check-label"><input id="selectAll" type="checkbox"> 전체 선택</label><button id="deleteSelected" class="secondary" type="button" disabled>선택 삭제</button></div><div id="history"></div></section>
-<footer>Map Link Converter · v1.0.10<br>공유 URL의 좌표는 실제 장소 위치와 다를 수 있습니다.</footer>
-</main><script src="./parser.js?v=1.0.10"></script><script src="./app.js?v=1.0.10"></script></body></html>
+<footer>Map Link Converter · v1.1.0<br>공유 URL의 좌표는 실제 장소 위치와 다를 수 있습니다.</footer>
+<dialog id="mapDialog" class="map-dialog" aria-labelledby="mapDialogTitle">
+<div class="map-dialog-head"><div><h2 id="mapDialogTitle">지도 미리보기</h2><p id="mapDialogSubtitle" class="muted"></p></div><button id="closeMap" class="secondary" type="button" aria-label="지도 닫기">닫기 ✕</button></div>
+<div class="map-frame-wrap"><iframe id="mapFrame" title="선택한 좌표의 지도와 위치 핀" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe></div>
+<p class="map-hint">위치 핀은 공유 링크의 좌표를 기준으로 표시됩니다. 지도 미리보기는 온라인 연결이 필요합니다.</p>
+<div class="map-dialog-actions"><a id="externalGoogle" class="map-external" target="_blank" rel="noopener noreferrer">Google Maps에서 열기 ↗</a><a id="externalApple" class="map-external" target="_blank" rel="noopener noreferrer">Apple Maps에서 열기 ↗</a></div>
+</dialog></main><script src="./parser.js?v=1.1.0"></script><script src="./app.js?v=1.1.0"></script></body></html>
