@@ -33,7 +33,7 @@ h.forEach((r,i)=>{const item=document.createElement("div"),heading=document.crea
 for(const [id] of languages){const copyId="copy"+id[0].toUpperCase()+id.slice(1).replace("Name","");$(id).addEventListener("input",()=>{if(!current)return;current[id]=$(id).value.trim();$(copyId).disabled=!current[id];updateLanguageSummary()});$(copyId).onclick=()=>current?.[id]&&copy(current[id])}
 $("analyze").onclick=()=>{current=null;$("result").hidden=true;try{show(MapLinkParser.parseMapLink($("url").value))}catch(e){$("message").textContent=e.message}};
 $("clear").onclick=()=>{$("url").value="";$("result").hidden=true;current=null;$("message").textContent="새 링크를 입력해 주세요."};
-$("openGoogle").onclick=()=>{if(current?.coords)window.open(googleUrl(current,"transit"),"_blank","noopener,noreferrer")};$("openApple").onclick=()=>{if(current?.coords)window.open(appleUrl(current,"transit"),"_blank","noopener,noreferrer")};
+$("openGoogle").onclick=()=>{if(current?.coords)window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(coordText(current)),"_blank","noopener,noreferrer")};$("openApple").onclick=()=>{if(current?.coords)window.open("https://maps.apple.com/?ll="+encodeURIComponent(coordText(current))+"&q="+encodeURIComponent(current.name||"선택한 위치"),"_blank","noopener,noreferrer")};
 $("save").onclick=()=>{if(!current)return;const h=history().filter(x=>x.url!==current.url);h.unshift({...current});store(h.slice(0,30));$("message").textContent="장소 목록에 저장했습니다."};
 $("selectAll").onchange=()=>{if($("selectAll").checked)history().forEach(r=>selected.add(r.url));else selected.clear();renderHistory()};
 $("enterSelection").onclick=()=>{selectionMode=true;selected.clear();renderHistory()};$("cancelSelection").onclick=exitSelection;
