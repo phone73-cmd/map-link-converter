@@ -111,3 +111,9 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 장소 목록 음성 재생 시 기기의 해당 언어 음성 중 향상/고음질 등으로 표시된 음성을 우선 선택하고 기본 음성보다 적합한 대안이 있으면 우선 적용
 - 슈퍼 컴팩트로 식별되는 음성은 후순위 처리, 별도 음성 선택 UI 없음
 - Web Speech API에서 음질 등급을 보장하지 않으므로 실제 고음질 여부는 기기 및 iOS 환경에 따라 달라짐
+
+
+## v1.2.1
+- 상단 헤더에 Lucide 스타일 설정(톱니바퀴) 버튼 추가
+- 클라우드 동기화, Google 로그인/로그아웃, JSON 백업/복원, 휴지통을 설정 모달로 이동
+- 기존 기능 및 Firebase 데이터 구조 변경 없음
