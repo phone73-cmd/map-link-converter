@@ -168,3 +168,13 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 헤더 왼쪽 로고, 브라우저 favicon 및 PWA manifest SVG 아이콘 교체
 - 서비스 워커 캐시 버전 갱신
 - iOS apple-touch-icon PNG는 아직 기존 파일이며, 새 아이콘으로 통일하려면 별도 교체 필요
+
+
+## v1.2.9
+- 일본어 장소명과 좌표를 기준으로 OpenStreetMap Nominatim 무료 역지오코딩에서 다국어 이름 조회
+- 동일 이름이 확인된 경우 비어 있는 한국어·영어 이름만 자동 입력; 기존 입력값 보존
+- 조회 실패 또는 오프라인에서 기존 링크 분석과 저장 기능 유지
+- 7일 로컬 조회 캐시, 5초 요청 시간 제한 적용
+- 기존 Firebase 및 로컬 장소 데이터 구조 유지
+- 아이폰 홈 화면용 새 투명 PNG 아이콘 교체는 별도 미완료 항목
+- 공용 Nominatim의 사용 정책 및 실제 iPhone Safari/PWA 동작은 추가 검증 필요

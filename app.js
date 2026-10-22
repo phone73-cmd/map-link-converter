@@ -28,10 +28,40 @@ function store(h){try{const before=localHistory();if(before.length){const bk="ml
 function field(label,val){const row=document.createElement("div"),left=document.createElement("div"),small=document.createElement("small"),value=document.createElement("div"),btn=document.createElement("button");row.className="field";small.textContent=label;value.className="value";value.textContent=val==null||val===""?"확인 불가":String(val);left.append(small,value);btn.className="secondary";btn.type="button";btn.innerHTML="<svg class=\"lucide-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"13\" height=\"13\" rx=\"2\"/><path d=\"M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3\"/></svg><span>복사</span>";btn.disabled=val==null||val==="";btn.onclick=()=>copy(String(val));row.append(left,btn);longPress(value,()=>val);return row}
 const languages=[["koreanName","한국어"],["englishName","영어"],["japaneseName","일본어"]];
 function updateLanguageSummary(){if(!current)return;const filled=languages.filter(([id])=>String(current[id]||"").trim()).map(([,label])=>label);$("languageTitle").textContent="다국어 장소 이름 ("+filled.length+")";$("languagePreview").textContent=filled.length?filled.join(" · "):"등록된 이름 없음"}
-function show(r){const {placeId,...clean}=r;current={...clean,englishName:clean.englishName||""};$("result").hidden=false;$("provider").textContent=current.provider||"Apple Maps";$("languages").open=false;
+let nameLookupSerial=0;
+async function findLocalizedNames(place,serial){
+ if(!navigator.onLine||!place.coords||!place.japaneseName)return;
+ const lat=Number(place.coords.lat),lon=Number(place.coords.lng);
+ if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
+ const key="mlc-osm-"+lat.toFixed(4)+"-"+lon.toFixed(4);
+ let data=null;
+ try{const cached=JSON.parse(localStorage.getItem(key)||"null");if(cached&&Date.now()-cached.time<604800000)data=cached.data}catch{}
+ if(!data){
+  try{
+   const controller=new AbortController();
+   const timeout=setTimeout(()=>controller.abort(),5000);
+   try{const response=await fetch("https://nominatim.openstreetmap.org/reverse?format=jsonv2&namedetails=1&zoom=18&lat="+encodeURIComponent(lat)+"&lon="+encodeURIComponent(lon),{signal:controller.signal});if(!response.ok)return;data=await response.json()}finally{clearTimeout(timeout)}
+   try{localStorage.setItem(key,JSON.stringify({time:Date.now(),data}))}catch{}
+  }catch{return}
+ }
+ if(serial!==nameLookupSerial||current?.url!==place.url)return;
+ const names=data.namedetails||{};
+ const source=String(place.japaneseName).trim();
+ const match=[names.name,names["name:ja"],data.name].filter(Boolean).some(n=>String(n).includes(source)||source.includes(String(n)));
+ if(!match)return;
+ let changed=false;
+ for(const [id,value] of [["koreanName",names["name:ko"]],["englishName",names["name:en"]]]){
+  if(value&&!String(current[id]||"").trim()&&!$(id).value.trim()){
+   current[id]=String(value);$(id).value=String(value);
+   $("copy"+id[0].toUpperCase()+id.slice(1).replace("Name","")).disabled=false;changed=true
+  }
+ }
+ if(changed){updateLanguageSummary();$("message").textContent="무료 장소 검색에서 이름을 찾았습니다. 저장 전 확인해 주세요."}
+}
+function show(r){const serial=++nameLookupSerial;const {placeId,...clean}=r;current={...clean,englishName:clean.englishName||""};$("result").hidden=false;$("provider").textContent=current.provider||"Apple Maps";$("languages").open=false;
 $("nameField").replaceChildren(field("장소 이름",current.name));$("otherFields").replaceChildren(field("위도·경도",coordText(current)||null),field("주소",current.address));
 for(const [id] of languages){$(id).value=current[id]||"";$("copy"+id[0].toUpperCase()+id.slice(1).replace("Name","")).disabled=!String(current[id]||"").trim()}updateLanguageSummary();
-for(const [id] of languages)if(!$(id).dataset.longPressBound){longPress($(id),()=>$(id).value);$(id).dataset.longPressBound="1"}const warnings=[];if(current.confidence==="center")warnings.push("지도 중심 좌표이며 실제 장소 위치로 확정할 수 없습니다.");else if(current.confidence==="candidate")warnings.push("좌표가 실제 장소 위치인지 확인하세요.");if(!current.coords)warnings.push("좌표가 없습니다. 별도 장소 조회가 필요합니다.");if(!current.name)warnings.push("장소 이름을 확인할 수 없습니다.");$("warning").hidden=!warnings.length;$("warning").textContent=warnings.join(" ");$("openGoogle").disabled=$("openApple").disabled=!current.coords;$("save").disabled=!(current.coords||current.name);$("message").textContent="링크 분석 완료"+(current.source?" · "+current.source:"")}
+for(const [id] of languages)if(!$(id).dataset.longPressBound){longPress($(id),()=>$(id).value);$(id).dataset.longPressBound="1"}const warnings=[];if(current.confidence==="center")warnings.push("지도 중심 좌표이며 실제 장소 위치로 확정할 수 없습니다.");else if(current.confidence==="candidate")warnings.push("좌표가 실제 장소 위치인지 확인하세요.");if(!current.coords)warnings.push("좌표가 없습니다. 별도 장소 조회가 필요합니다.");if(!current.name)warnings.push("장소 이름을 확인할 수 없습니다.");$("warning").hidden=!warnings.length;$("warning").textContent=warnings.join(" ");$("openGoogle").disabled=$("openApple").disabled=!current.coords;$("save").disabled=!(current.coords||current.name);$("message").textContent="링크 분석 완료"+(current.source?" · "+current.source:"");void findLocalizedNames(current,serial)}
 function button(label,fn,disabled=false){const b=document.createElement("button");b.type="button";b.className="secondary";b.textContent=label;b.disabled=disabled;b.addEventListener("click",fn);return b}
 function deleteOne(r){if(!window.confirm("이 장소를 휴지통으로 이동할까요?"))return;if(window.MLCCloud?.uid&&window.MLCCloud.items.some(x=>x.url===r.url)){window.MLCCloud.remove(r);renderHistory();return}const before=localHistory(),after=before.filter(x=>x.url!==r.url);if(after.length===before.length){$("message").textContent="삭제할 장소를 찾지 못했습니다.";return}if(store(after))$("message").textContent="장소를 삭제했습니다."}
 const speakState={key:null,utterance:null};
