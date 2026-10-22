@@ -1,4 +1,6 @@
-# Map Link Converter v1.2.0 — Firebase test branch
+# Map Link Converter v1.2.19
+
+## Firebase acceptance testing
 
 **Testing only — do not merge into main before acceptance testing.**
 
@@ -238,3 +240,34 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - Google 버튼에서 연 미리보기에는 Google Maps 길찾기만, Apple 버튼에서 연 미리보기에는 Apple Maps 길찾기만 표시
 - 기존 지도 iframe, 이동수단 선택, 저장 장소, Firebase 및 오프라인 기능 유지
 - iPhone Safari/PWA 실제 기기 수동 검증 필요
+
+
+## v1.2.18 (2026-10-22)
+- 헤더, 입력·결과, 다국어 펼침, 장소 목록·선택 삭제, 설정, 지도 팝업의 여백·줄간격 통일.
+- 주요 버튼 최소 44px 터치 영역, 16px 입력 글자, 키보드 포커스 및 복원 버튼 키보드 조작 보강.
+- 로그아웃 버튼을 숨긴 설정은 3열, 지도 길찾기는 표시된 제공자 버튼 1열 전체 너비 사용.
+- 작은 화면 헤더·목록 제목 줄바꿈, 긴 이름·좌표 처리, 낮은 화면의 지도·팝업 스크롤 개선.
+- 로컬 저장 실패를 성공으로 표시하지 않음. 클라우드 대기열 저장 실패 시 기존 대기열 유지 및 오류 안내.
+- Firebase SDK 미로딩·오프라인에서도 로컬 JSON 백업·복원 사용. 백업의 장소 URL·좌표 검증, 계정 장소가 포함된 백업은 로그인 후 복원하도록 안내.
+- 로컬 삭제 안내와 계정 휴지통 안내 구분. 계정 장소 삭제 시 같은 URL의 로컬 사본도 제거해 로그아웃 후 재등장 방지.
+- 잘못된 좌표의 부분 문자열을 좌표로 오인하지 않도록 검증 강화.
+- 계정 전환 중 진행 중인 쓰기 완료 후 새 계정 대기열 처리 재개. 이전 계정의 늦은 오류는 현재 상태에 표시하지 않음.
+- 기존 저장 키·백업 포맷·Firestore 경로 유지.
+
+### 검증
+- `node --check`로 앱·파서·Firebase·서비스 워커 구문 검사.
+- `tests/regression.cjs`: 좌표 범위·위장 URL, 계정 전환 대기열, 저장 공간 오류 검증.
+- Chromium: 320/375/390/430/768/1280px의 입력·결과·다국어·목록·12개 선택·설정·Google/Apple 미리보기의 가로 넘침 및 버튼 표시 검증.
+- Firebase SDK 요청을 차단한 상태에서 로컬 백업 다운로드, 잘못된 백업 거부, 정상 복원, 저장 공간 부족 메시지 검증.
+- 실행: Playwright 설치 후 `node tests/regression.cjs`. 시스템 Chromium 사용 시 `CHROMIUM_PATH=/path/to/chromium node tests/regression.cjs`.
+- 미확인: iPhone Safari/PWA 실기기, 실제 Google 로그인·계정 전환·Firestore 보안 규칙·교차 기기 동기화, 실제 외부 지도 로딩·앱 전환, PWA 버전 교체. 지도 네트워크 요청은 자동 검증에서 차단함.
+- 휴지통은 기존 브라우저 번호 입력 방식 유지. Firebase SDK를 불러오지 못하면 계정 장소·휴지통·로그인은 사용할 수 없으며 안내 표시.
+
+
+## v1.2.19 (2026-10-22)
+- 모으기 일괄적용: v1.2.18 화면 간격 최적화·저장 및 동기화 오류 수정 포함.
+- 앱 제목 왼쪽·favicon·iOS apple-touch-icon·PWA manifest를 동일한 라벤더 지도 핀 원본으로 통일.
+- 180px 원본과 동일한 디자인의 192px·512px PNG 설치 아이콘 제공. 다른 디자인의 SVG를 manifest에서 제외.
+- 버전을 포함한 새 파일명 및 서비스 워커 사전 캐시로 이전 이미지 캐시와 구분. 기존 장소·계정 데이터는 유지.
+- 홈 화면에 이미 설치된 아이콘은 OS 캐시로 바로 바뀌지 않을 수 있음. 새로 추가해 확인하며 사이트 데이터 삭제는 필요 없음.
+- 사용자의 일괄적용·배포 요청에 따라 운영 반영. 실제 iPhone/PWA 및 Firebase 검증의 미확인 항목은 이전 검증 목록과 동일.
