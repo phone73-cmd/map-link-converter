@@ -29,7 +29,7 @@ function field(label,val){const row=document.createElement("div"),left=document.
 const languages=[["koreanName","한국어"],["japaneseName","일본어"],["englishName","영어"]];
 function updateLanguageSummary(){if(!current)return;const filled=languages.filter(([id])=>String(current[id]||"").trim()).map(([,label])=>label);$("languageTitle").textContent="다국어 장소 이름 ("+filled.length+")";$("languagePreview").textContent=filled.length?filled.join(" · "):"등록된 이름 없음"}
 let nameLookupSerial=0;
-const lookupCachePrefix="mlc-osm-v2-";
+const lookupCachePrefix="mlc-osm-v3-";
 const normalizePlaceName=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/\s/g,"").replace(/[・･\u30fb\u00b7()（）\-ー]/g,"");
 function nameMatches(source,candidate){
  const a=normalizePlaceName(source),b=normalizePlaceName(candidate);
@@ -44,9 +44,9 @@ async function findLocalizedNames(place,serial){
  const report=s=>{if(serial===nameLookupSerial&&current?.url===place.url&&status)status.textContent=s};
  if(!place.coords){report("자동 검색 불가: 장소 좌표가 없습니다.");return}
  if(!navigator.onLine){report("오프라인 상태입니다. 기존 이름을 그대로 사용할 수 있습니다.");return}
- if(place.koreanName&&place.englishName){report("한국어·영어 이름이 이미 등록되어 있습니다.");return}
+ if(place.koreanName&&place.japaneseName&&place.englishName){report("한국어·영어 이름이 이미 등록되어 있습니다.");return}
  const source=String(place.japaneseName||place.name||"").trim();
- if(!source){report("자동 검색 불가: 장소 이름이 없습니다.");return}
+ 
  const lat=Number(place.coords.lat),lon=Number(place.coords.lng);
  if(!Number.isFinite(lat)||!Number.isFinite(lon)){report("자동 검색 불가: 좌표가 올바르지 않습니다.");return}
  report("무료 장소 이름 검색 중…");
@@ -67,17 +67,18 @@ async function findLocalizedNames(place,serial){
  }
  if(serial!==nameLookupSerial||current?.url!==place.url)return;
  const names=data.namedetails||{};
- const candidates=[names.name,names["name:ja"],data.name].filter(Boolean);
+ const candidates=[names.name,names["name:ja"],names["name:en"],names["name:ko"],data.name].filter(Boolean);
+ if(!source){report("좌표만으로 동일 장소를 확정할 수 없어 자동 입력하지 않았습니다. 장소 이름이 포함된 링크를 사용해 주세요.");return}
  if(!candidates.some(n=>nameMatches(source,n))){report("동일 장소를 확인하지 못했습니다. 다른 장소의 이름은 자동 입력하지 않습니다.");return}
  let changed=false;
- for(const [id,value] of [["koreanName",names["name:ko"]],["englishName",names["name:en"]]]){
+ for(const [id,value] of [["koreanName",names["name:ko"]],["japaneseName",names["name:ja"]],["englishName",names["name:en"]]]){
   if(value&&!String(current[id]||"").trim()&&!$(id).value.trim()){
    current[id]=String(value);$(id).value=String(value);
    $("copy"+id[0].toUpperCase()+id.slice(1).replace("Name","")).disabled=false;changed=true
   }
  }
  if(changed){updateLanguageSummary();report("OpenStreetMap에서 이름을 찾았습니다. 저장 전에 확인해 주세요.")}
- else report("동일 장소는 찾았지만 한국어·영어 이름이 등록되어 있지 않습니다.")
+ else report("동일 장소는 찾았지만 추가 다국어 이름이 등록되어 있지 않습니다.")
 }
 function show(r){const serial=++nameLookupSerial;const {placeId,...clean}=r;current={...clean,englishName:clean.englishName||""};$("result").hidden=false;$("provider").textContent=current.provider||"Apple Maps";$("languages").open=false;
 $("nameField").replaceChildren(field("장소 이름",current.name));$("otherFields").replaceChildren(field("위도·경도",coordText(current)||null),field("주소",current.address));

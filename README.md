@@ -203,3 +203,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 분석 결과 다국어 입력 필드와 요약 순서를 한국어, 일본어, 영어로 통일
 - 로컬 저장 및 Firebase 데이터 스키마 변경 없음
 - 무료 다국어 자동 검색 정확도 개선은 후속 검증 대상
+
+
+## v1.2.13
+- 좌표 역검색 시 일본어·한국어·영어 후보 이름과 원래 장소 이름을 대조
+- 확인된 OSM name:ja, name:ko, name:en 값을 비어 있는 다국어 필드에만 채움
+- 기존 이름 및 사용자 수정값 보존; 일치 확인이 안 되는 좌표 단독 검색은 보류
+- 실제 일본 현지 지도 데이터 커버리지 및 iPhone PWA 동작 미검증
