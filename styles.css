@@ -45,3 +45,6 @@
 
 /* v1.2.2 place sorting */
 .history-sort-bar{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin:-3px 0 7px}.history-sort-bar label{margin:0;white-space:nowrap}.history-sort-bar select{min-height:38px;max-width:100%;border:1px solid #dce5f1;border-radius:10px;background:#f2f6fc;color:#476889;font:inherit;font-size:12px;font-weight:600;padding:8px 10px}.history-sort-bar select:focus-visible{outline:2px solid #a3c2ec}
+
+/* v1.2.3: recognizable action icons, keep text labels */
+.button-symbol{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:6px}.cloud-import .button-symbol{vertical-align:-3px}.history-sort-bar .button-symbol{width:15px;height:15px;margin-right:5px}.input-actions button,.history-normal-actions button,.cloud-actions button{white-space:nowrap}.cloud-import{white-space:nowrap}
