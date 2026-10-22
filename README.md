@@ -161,3 +161,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 사용자가 첨부한 라벤더 입체 톱니바퀴 이미지를 설정 버튼으로 적용 (96px 최적화 이미지)
 - 설정 버튼의 배경색, 테두리 및 그림자 제거, 기존 클릭 기능 유지
 - 서비스 워커 캐시 버전 및 이미지 자산 갱신
+
+
+## v1.2.8
+- 1번 지도핀 + 접이식 지도 시안을 바탕으로 라벤더·파스텔 3D 스타일 SVG 아이콘 제작
+- 헤더 왼쪽 로고, 브라우저 favicon 및 PWA manifest SVG 아이콘 교체
+- 서비스 워커 캐시 버전 갱신
+- iOS apple-touch-icon PNG는 아직 기존 파일이며, 새 아이콘으로 통일하려면 별도 교체 필요
