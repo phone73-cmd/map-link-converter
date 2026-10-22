@@ -1,4 +1,4 @@
-# Map Link Converter v1.2.24
+# Map Link Converter v1.2.25
 
 ## Firebase acceptance testing
 
@@ -353,3 +353,17 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 실행 파일·HTML·CSS·사전 캐시에 외부 좌표 조회 코드·연결이 남지 않았는지 검사, 구문·git diff --check 통과.
 
 - 추가 요청 반영: 헤더의 ‘Apple 지도 링크를 좌표정보로…’ 설명 문구를 삭제하고 바로 그 자리에 계정 동기화 상태를 표시. 상태별 클릭·로그인 연결을 유지하고 모바일·PC 줄간격 확인.
+
+
+## v1.2.25 (2026-10-23) — 일본어 음성 모으기 일괄적용
+
+- Chrome(데스크톱·Android·iOS)은 일본어 Kyoko만 선택·미리 듣기·장소명 재생에 사용. 음성 이름 또는 Apple voiceURI로 Kyoko 변형을 인식하며 다른 이름은 목록·자동 선택에서 제외.
+- Kyoko가 없으면 안내하고 재생하지 않음. 이전에 저장한 다른 음성으로 우회하지 않으며 지연 로딩된 목록도 같은 제한 적용.
+- 다른 브라우저에서는 일본어 음성 목록 유지. 컴팩트·슈퍼 컴팩트·Enhanced·Premium은 종류로만 표시하고 자동 선택의 음질 가중치 제거. 직접 선택한 사용 가능한 음성 우선.
+- 음질 및 실제 기기 음성 제공 여부는 실기기 미리 듣기로 확인 필요.
+
+### v1.2.25 검증
+
+- tests/status-voice.cjs 통과: 모의 음성 목록/재생으로 Chrome의 Kyoko 제한, voiceURI 변형 인식, 기존 다른 음성 선택값 제외, 슈퍼 컴팩트 직접 선택·재실행 유지, Kyoko 부재 시 안내/재생 차단, 지연 목록 갱신, Safari 목록 유지 및 320px 설정 확인.
+- tests/regression.cjs 통과: 6개 화면 크기, 링크 분석/언어/목록/선택 삭제/설정/지도, 백업/복원 및 저장 실패·계정 전환 회귀 검사.
+- JavaScript 구문 검사 및 git diff --check 통과. 실제 기기의 음질·설치 음성·iPhone Safari/PWA 동작은 실기기 미확인.
