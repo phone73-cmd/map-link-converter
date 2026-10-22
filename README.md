@@ -187,3 +187,12 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 캐시 키 v2로 변경해 기존 실패 가능 결과 재조회; 앱 및 서비스 워커 버전 일치
 - 무료 역지오코딩은 가장 가까운 지도 객체만 반환하므로 출입구별 한국어 이름 자동 완성은 보장하지 않음
 - iPhone 실제 작동과 홈 화면용 투명 PNG 아이콘 교체는 미검증·미완료
+
+
+## v1.2.11
+- 사용자 제공 라벤더 지도핀 이미지를 기반으로 투명 PNG(180×180) 아이콘 추가
+- 웹앱 헤더, 브라우저 favicon, iOS apple-touch-icon, PWA manifest 아이콘을 새 PNG로 연결
+- SVG 아이콘은 manifest의 보조 확장형 아이콘으로 유지
+- 서비스 워커 캐시 및 화면 버전 갱신
+- iPhone 홈 화면에 이미 설치된 앱은 아이콘 갱신을 위해 다시 추가해야 할 수 있음
+- PNG는 저장소 업로드 제한을 고려한 최적화 버전이며 원본 대비 색상 수가 줄어듦
