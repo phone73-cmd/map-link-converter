@@ -210,3 +210,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 확인된 OSM name:ja, name:ko, name:en 값을 비어 있는 다국어 필드에만 채움
 - 기존 이름 및 사용자 수정값 보존; 일치 확인이 안 되는 좌표 단독 검색은 보류
 - 실제 일본 현지 지도 데이터 커버리지 및 iPhone PWA 동작 미검증
+
+
+## v1.2.14
+- 다국어 자동 조회(Nominatim), 관련 캐시 조회·생성, 조회 상태 표시 및 API 호출 코드 제거
+- 다국어 이름 직접 입력·복사·저장 기능 유지
+- 장소 목록 번호와 이름을 분리하여 일본어·영어 줄이 첫 이름의 시작 위치에 정렬
+- 로컬 및 Firebase 저장 데이터 구조 변경 없음

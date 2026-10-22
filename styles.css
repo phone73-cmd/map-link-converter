@@ -75,3 +75,9 @@
 #openSettings.settings-trigger.lavender-settings,#openSettings.settings-trigger.lavender-settings:hover,#openSettings.settings-trigger.lavender-settings:active{background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;padding:0!important;border-radius:0!important;outline-offset:2px}
 #openSettings.settings-trigger img{display:block;width:38px;height:38px;object-fit:contain;pointer-events:none}
 #enterSelection,#enterSelection:hover,#enterSelection:active{background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important}
+
+/* v1.2.14: align every language name with the first name, not the list number */
+.history-title{display:flex;align-items:flex-start;gap:.4em}
+.history-index{flex:0 0 auto;white-space:nowrap}
+.history-name-block{display:block;flex:1;min-width:0}
+.history-language-names{display:block;margin-top:.15em;color:var(--muted,#64748b);font-weight:400}
