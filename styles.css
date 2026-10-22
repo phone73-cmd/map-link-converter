@@ -133,3 +133,6 @@ button:focus-visible,.cloud-import:focus-visible,.map-external:focus-visible,sum
 }
 @media(max-width:340px){.heading:has(.history-heading-actions){align-items:flex-start;gap:4px}.heading:has(.history-heading-actions)>h2{padding-top:10px}.history-normal-actions .button-symbol{width:14px;height:14px}.history-normal-actions button{gap:3px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+/* v1.2.20: translation feedback without hiding existing place details */
+.translation-status{margin:8px 0 12px;font-size:12px;line-height:1.6;overflow-wrap:anywhere}.translation-status[hidden]{display:none}
