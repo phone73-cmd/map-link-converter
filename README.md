@@ -1,4 +1,4 @@
-# Map Link Converter v1.2.23
+# Map Link Converter v1.2.24
 
 ## Firebase acceptance testing
 
@@ -339,3 +339,17 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - tests/translation.cjs: 영어 자동 입력, 일본어 우선, 기존 한국어 보존, 캐시 재사용·이전 일본어 캐시 호환·언어별 캐시 분리, 영어 원문 수정 중 늦은 응답 무시 검증.
 - 기존 화면·저장·백업 회귀 및 좌표·검색·탐색 검증, 구문·git diff --check 통과.
 - 고유명사의 공식 한국어 표기는 보장하지 않으며 실제 iPhone Safari/PWA에서의 동작은 실기기 확인 필요.
+
+
+## v1.2.24 (2026-10-22)
+- 사용자 요청으로 좌표 기반 주소·장소 자동 채움 기능 완전 제거. geocoder.js, Photon 호출·결과 처리·자동 채움 안내·출처 표시 및 관련 CSS·서비스 워커 사전 캐시 항목 삭제.
+- 다음 실행 때 해당 조회 전용 캐시(mlc-coordinate-candidates-v1)만 정리. 저장된 장소·주소·이름·계정 데이터·다른 설정은 변경하지 않음.
+- 좌표 직접 입력은 외부 장소 조회 없이 위도·경도 확인·지도 열기·직접 이름/주소 입력·저장으로 사용 가능. 기존 링크 분석과 일본어/영어→한국어 이름 번역은 유지.
+- v1.2.23의 영어 번역 개선을 포함한 최종 적용본.
+
+### v1.2.24 검증
+- tests/convenience.cjs: 좌표 자동 채움 API 호출 0건·관련 UI 없음·모듈 없음, 이전 조회 캐시만 삭제·다른 설정 보존, 수동 좌표·이름·주소 저장·오프라인 사용 및 검색·탐색 검증 통과.
+- tests/translation.cjs 및 tests/regression.cjs 재통과.
+- 실행 파일·HTML·CSS·사전 캐시에 외부 좌표 조회 코드·연결이 남지 않았는지 검사, 구문·git diff --check 통과.
+
+- 추가 요청 반영: 헤더의 ‘Apple 지도 링크를 좌표정보로…’ 설명 문구를 삭제하고 바로 그 자리에 계정 동기화 상태를 표시. 상태별 클릭·로그인 연결을 유지하고 모바일·PC 줄간격 확인.
