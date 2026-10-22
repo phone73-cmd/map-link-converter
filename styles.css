@@ -70,3 +70,8 @@
 .update-notice{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:0}
 .update-notice[hidden],.connection-status[hidden]{display:none!important}
 .update-notice button{min-height:36px;padding:7px 10px;white-space:nowrap}
+
+/* v1.2.7 transparent, borderless action buttons */
+#openSettings.settings-trigger.lavender-settings,#openSettings.settings-trigger.lavender-settings:hover,#openSettings.settings-trigger.lavender-settings:active{background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;padding:0!important;border-radius:0!important;outline-offset:2px}
+#openSettings.settings-trigger img{display:block;width:38px;height:38px;object-fit:contain;pointer-events:none}
+#enterSelection,#enterSelection:hover,#enterSelection:active{background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important}
