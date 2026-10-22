@@ -231,3 +231,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 홈 화면·파비콘·헤더 아이콘 경로를 기존 원본으로 되돌림
 - 파스텔 블루 배경 합성은 원본 PNG를 정확하게 처리할 수 있을 때 별도 적용 필요
 - 저장 데이터 변경 없음
+
+
+## v1.2.17 (2026-10-22)
+- 지도 미리보기에서 배경 클릭·터치로 닫히지 않도록 변경 (닫기 버튼 유지)
+- Google 버튼에서 연 미리보기에는 Google Maps 길찾기만, Apple 버튼에서 연 미리보기에는 Apple Maps 길찾기만 표시
+- 기존 지도 iframe, 이동수단 선택, 저장 장소, Firebase 및 오프라인 기능 유지
+- iPhone Safari/PWA 실제 기기 수동 검증 필요
