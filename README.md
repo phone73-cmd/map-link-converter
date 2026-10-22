@@ -217,3 +217,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 다국어 이름 직접 입력·복사·저장 기능 유지
 - 장소 목록 번호와 이름을 분리하여 일본어·영어 줄이 첫 이름의 시작 위치에 정렬
 - 로컬 및 Firebase 저장 데이터 구조 변경 없음
+
+
+## v1.2.15 (2026-10-22)
+- 아이폰 홈 화면 및 웹앱 지도 핀 아이콘의 배경을 연한 파스텔 블루(#DDEEFF)로 변경
+- apple-touch-icon, favicon, PWA manifest, 서비스 워커 캐시 파일 경로 동기화
+- 순차 버전 규칙: 마지막 숫자는 0~9, 9 이후 앞자리 올림 (예: 1.2.19 → 1.2.20, 1.2.99 → 1.3.0)
+- 저장 장소·Firebase 데이터 구조 변경 없음
