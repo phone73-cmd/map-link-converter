@@ -1,5 +1,5 @@
 (function(g){"use strict";
-const valid=s=>{const m=String(s||"").match(/(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)/);if(!m)return null;const lat=+m[1],lng=+m[2];return Math.abs(lat)<=90&&Math.abs(lng)<=180?{lat,lng}:null};
+const valid=s=>{const m=String(s||"").match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/);if(!m)return null;const lat=+m[1],lng=+m[2];return Math.abs(lat)<=90&&Math.abs(lng)<=180?{lat,lng}:null};
 function parseMapLink(input){let u;try{u=new URL(input.trim())}catch{throw Error("올바른 URL을 입력해 주세요.")}if(!["http:","https:"].includes(u.protocol))throw Error("HTTP(S) 링크만 지원합니다.");if(u.hostname.toLowerCase()!=="maps.apple.com")throw Error("Apple Maps 링크만 지원합니다.");
 const p=u.searchParams;let name=p.get("name")||p.get("q")||"",address=p.get("address")||"",coords=null,confidence="none",source="";
 for(const [v,c,s] of [[p.get("coordinate"),"place","Apple coordinate"],[p.get("ll"),"center","Apple ll"],[p.get("sll"),"center","Apple sll"],[p.get("daddr"),"candidate","Apple destination"]]){const found=valid(v);if(found){coords=found;confidence=c;source=s;break}}

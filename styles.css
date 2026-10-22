@@ -84,3 +84,52 @@
 
 /* v1.2.17: show only the matching directions provider */
 .map-dialog-actions .map-external[hidden]{display:none!important}
+
+/* v1.2.18: consistent spacing and responsive layout */
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px}
+body{line-height:1.55;-webkit-text-size-adjust:100%}
+.shell{padding:24px max(16px,env(safe-area-inset-right)) max(32px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+header{display:grid;grid-template-columns:49px minmax(0,1fr) auto;gap:12px;margin:0 0 24px}
+header>div{min-width:0}h1{font-size:clamp(17px,4.6vw,21px);line-height:1.3;overflow-wrap:anywhere}
+header p{margin:4px 0 0;line-height:1.5;overflow-wrap:anywhere}.logo{flex:none;background:transparent}.logo img{display:block;object-fit:contain}
+.header-tools{gap:6px;margin:0}.version{white-space:nowrap;line-height:1.4}
+.panel{padding:20px;margin-bottom:16px}.heading{gap:8px;margin-bottom:16px;flex-wrap:wrap}h2,h3{line-height:1.4}.tag{line-height:1.4;white-space:nowrap}
+label,small{line-height:1.5;margin-bottom:6px}textarea{display:block;line-height:1.55;font-size:16px;min-height:104px}
+button,.map-external,.cloud-import{min-height:44px;line-height:1.4;touch-action:manipulation}
+button:focus-visible,.cloud-import:focus-visible,.map-external:focus-visible,summary:focus-visible{outline:2px solid #5688c6;outline-offset:3px}
+.actions{margin-top:12px;gap:8px}.input-actions button{min-height:44px}
+#message{margin:12px 0 0;line-height:1.6}.notice{margin:12px 0 0}.muted{line-height:1.6;overflow-wrap:anywhere}
+.field{gap:12px;padding:12px 0}.field small{margin:0 0 4px}.field>button{display:flex;align-items:center;justify-content:center;gap:6px;flex:none;padding:8px 12px}
+.value{line-height:1.6}.languages{margin:12px 0}.languages summary{padding:12px;gap:10px;min-height:64px}.language-summary strong{display:block;line-height:1.5}
+.language-summary small{line-height:1.5}.language-fields{padding:0 12px 12px}.language-fields label{margin:12px 0 6px}.language-fields .muted{margin:12px 0 0}
+.editable-field{gap:8px}.editable-field input{min-height:44px;font-size:16px;line-height:1.5;padding:10px}.editable-field button{min-height:44px}
+.result-actions{margin-top:16px;gap:8px}.result-actions button{min-height:56px;line-height:1.4;gap:4px;padding:8px 4px}
+.history-heading-actions{margin-left:auto;min-height:44px;max-width:100%}.history-normal-actions{gap:4px;flex-wrap:wrap}
+.history-normal-actions button{min-height:44px;padding:8px;font-size:12px;display:flex;align-items:center;gap:4px}
+.history-normal-actions .button-symbol{margin:0}.history-tools:not([hidden]){min-height:44px;gap:8px;flex-wrap:wrap}.history-tools button{min-height:44px;font-size:12px;padding:8px}
+.history-tools .check-label{min-height:44px;font-size:12px;gap:4px}.history-tools .check-label input{width:18px;height:18px;margin:0}
+.history-sort-bar{margin:0 0 4px;gap:8px}.history-sort-bar select{min-width:0;min-height:44px;font-size:16px;padding:8px 10px}
+.history-item{padding:16px 0}.history-item:last-child{padding-bottom:0}.history-heading{gap:8px;align-items:flex-start}
+.history-title{line-height:1.6;padding:4px 0}.history-name-block{overflow-wrap:anywhere}.history-language-names{margin-top:4px;font-size:13px;line-height:1.6}
+.history-coord{margin:8px 0 12px;line-height:1.5;overflow-wrap:anywhere}.history-actions{gap:8px}.history-actions button{min-height:44px;font-size:12px;padding:8px 2px;gap:4px}
+.history-select{min-height:44px}.history-select input{margin:0;width:18px;height:18px}.history-speak{width:44px;min-width:44px;height:44px;padding:10px}
+#history>.muted{margin:16px 0 4px}footer{margin-top:24px;line-height:1.7}
+.settings-dialog,.map-dialog{width:min(calc(100vw - 24px),620px);max-height:calc(100dvh - 32px);padding:20px;overscroll-behavior:contain;scrollbar-gutter:stable}
+.settings-dialog{max-width:550px}.settings-dialog-head{gap:12px;margin-bottom:16px;padding-bottom:12px}.settings-close{width:44px;min-height:44px;flex:none}
+.settings-cloud .heading{margin-bottom:12px}.settings-cloud p{margin:8px 0;line-height:1.6}.settings-cloud .cloud-actions{margin:16px 0}
+.cloud-account-action{margin-bottom:12px}.cloud-account-action #cloudLogin{min-height:44px}
+.cloud-tool-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.cloud-tool-row:has(#cloudLogout[hidden]){grid-template-columns:repeat(3,minmax(0,1fr))}
+.cloud-tool-row button,.cloud-tool-row .cloud-import{min-height:44px;font-size:12px;line-height:1.4;padding:8px 4px;gap:4px}.cloud-tool-row .button-symbol{width:14px;height:14px}
+.map-dialog-head{gap:12px;margin-bottom:12px}.map-dialog-head>div{min-width:0}.map-dialog-head h2{margin:0 0 4px}.map-dialog-head p{line-height:1.6}
+.map-frame-wrap{height:clamp(180px,40dvh,360px);min-height:0}.map-frame-wrap iframe{display:block}.map-hint{margin:12px 0;line-height:1.6}
+.travel-modes{margin:16px 0 0}.travel-modes legend{margin-bottom:8px;line-height:1.5}.travel-mode-options{gap:8px}.travel-mode-options span{min-height:44px;line-height:1.4}
+.map-dialog-actions{grid-template-columns:minmax(0,1fr);margin-top:16px}.map-external{font-size:13px;padding:10px}
+.connection-status,.update-notice{margin:0 0 16px;line-height:1.6}.update-notice button{min-height:44px}
+@media(max-width:390px){
+ .shell{padding-top:16px}.panel{padding:16px}header{gap:8px;margin-bottom:20px}.header-tools{flex-direction:column-reverse;gap:0}.header-tools .version{font-size:10px}
+ .settings-dialog,.map-dialog{padding:16px}.history-heading-actions{margin-left:auto}.history-normal-actions button{font-size:11px;padding:8px 4px}
+ .history-actions{gap:6px}.history-actions button{font-size:11px}.history-actions .lucide-icon{width:13px;height:13px}.cloud-tool-row{gap:6px}
+ .cloud-tool-row button,.cloud-tool-row .cloud-import{font-size:11px;gap:3px}.travel-mode-options{gap:6px}.travel-mode-options span{font-size:11px}
+}
+@media(max-width:340px){.heading:has(.history-heading-actions){align-items:flex-start;gap:4px}.heading:has(.history-heading-actions)>h2{padding-top:10px}.history-normal-actions .button-symbol{width:14px;height:14px}.history-normal-actions button{gap:3px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
