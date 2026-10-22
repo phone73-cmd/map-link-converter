@@ -136,3 +136,11 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - PWA SVG 아이콘도 같은 파스텔 블루 디자인으로 통일
 - iOS 홈 화면 PNG 아이콘은 기존 파일 유지(별도 PNG 교체 필요)
 - 기존 데이터·동기화 기능 변경 없음
+
+
+## v1.2.5
+- 설정 버튼 파스텔 블루 톱니바퀴 디자인 적용
+- 설정창 바깥 클릭 닫힘 방지
+- 백업, 복원, 휴지통, 로그아웃 순서로 한 행 배치
+- JSON 표시 문구 삭제, 파일 형식과 데이터 구조는 유지
+- 작은 화면의 버튼 크기 및 여백 정리
