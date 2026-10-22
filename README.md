@@ -224,3 +224,10 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - apple-touch-icon, favicon, PWA manifest, 서비스 워커 캐시 파일 경로 동기화
 - 순차 버전 규칙: 마지막 숫자는 0~9, 9 이후 앞자리 올림 (예: 1.2.19 → 1.2.20, 1.2.99 → 1.3.0)
 - 저장 장소·Firebase 데이터 구조 변경 없음
+
+
+## v1.2.16 (2026-10-22)
+- v1.2.15에서 잘못 교체한 아이콘을 기존 라벤더 지도 핀 원본으로 복구
+- 홈 화면·파비콘·헤더 아이콘 경로를 기존 원본으로 되돌림
+- 파스텔 블루 배경 합성은 원본 PNG를 정확하게 처리할 수 있을 때 별도 적용 필요
+- 저장 데이터 변경 없음
