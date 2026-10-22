@@ -48,3 +48,16 @@
 
 /* v1.2.3: recognizable action icons, keep text labels */
 .button-symbol{display:inline-block;width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:6px}.cloud-import .button-symbol{vertical-align:-3px}.history-sort-bar .button-symbol{width:15px;height:15px;margin-right:5px}.input-actions button,.history-normal-actions button,.cloud-actions button{white-space:nowrap}.cloud-import{white-space:nowrap}
+
+/* v1.2.5: blue settings icon and one-row cloud actions */
+.settings-trigger{background:#e9f0ff;border-color:#d5e4fb;color:#5d83bf}
+.settings-trigger:hover{background:#dce9ff}
+.settings-cloud .cloud-actions{display:block;margin-top:14px}
+.cloud-account-action{margin-bottom:9px}
+.cloud-account-action:has(#cloudLogin[hidden]){display:none}
+.cloud-account-action #cloudLogin{width:100%;min-height:42px}
+.cloud-tool-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;align-items:stretch;width:100%}
+.cloud-tool-row button,.cloud-tool-row .cloud-import{box-sizing:border-box;min-width:0;width:100%;min-height:42px;margin:0;padding:8px 2px;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:3px;font-size:clamp(10px,2.7vw,12px);font-weight:600;line-height:1.2;white-space:nowrap}
+.cloud-tool-row .button-symbol{width:14px;height:14px;margin-right:0;flex:none}
+.cloud-tool-row [hidden]{display:none!important}
+@media(max-width:370px){.settings-dialog{padding:15px}.cloud-tool-row{gap:4px}.cloud-tool-row button,.cloud-tool-row .cloud-import{font-size:10px;padding:8px 1px}.cloud-tool-row .button-symbol{width:12px;height:12px}}
