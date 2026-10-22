@@ -1,4 +1,4 @@
-# Map Link Converter v1.2.18
+# Map Link Converter v1.2.19
 
 ## Firebase acceptance testing
 
@@ -262,3 +262,12 @@ index.html, app.js, parser.js, styles.css, service-worker.js, manifest.webmanife
 - 실행: Playwright 설치 후 `node tests/regression.cjs`. 시스템 Chromium 사용 시 `CHROMIUM_PATH=/path/to/chromium node tests/regression.cjs`.
 - 미확인: iPhone Safari/PWA 실기기, 실제 Google 로그인·계정 전환·Firestore 보안 규칙·교차 기기 동기화, 실제 외부 지도 로딩·앱 전환, PWA 버전 교체. 지도 네트워크 요청은 자동 검증에서 차단함.
 - 휴지통은 기존 브라우저 번호 입력 방식 유지. Firebase SDK를 불러오지 못하면 계정 장소·휴지통·로그인은 사용할 수 없으며 안내 표시.
+
+
+## v1.2.19 (2026-10-22)
+- 모으기 일괄적용: v1.2.18 화면 간격 최적화·저장 및 동기화 오류 수정 포함.
+- 앱 제목 왼쪽·favicon·iOS apple-touch-icon·PWA manifest를 동일한 라벤더 지도 핀 원본으로 통일.
+- 180px 원본과 동일한 디자인의 192px·512px PNG 설치 아이콘 제공. 다른 디자인의 SVG를 manifest에서 제외.
+- 버전을 포함한 새 파일명 및 서비스 워커 사전 캐시로 이전 이미지 캐시와 구분. 기존 장소·계정 데이터는 유지.
+- 홈 화면에 이미 설치된 아이콘은 OS 캐시로 바로 바뀌지 않을 수 있음. 새로 추가해 확인하며 사이트 데이터 삭제는 필요 없음.
+- 사용자의 일괄적용·배포 요청에 따라 운영 반영. 실제 iPhone/PWA 및 Firebase 검증의 미확인 항목은 이전 검증 목록과 동일.
