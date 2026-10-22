@@ -30,7 +30,7 @@ const languages=[["koreanName","한국어"],["englishName","영어"],["japaneseN
 function updateLanguageSummary(){if(!current)return;const filled=languages.filter(([id])=>String(current[id]||"").trim()).map(([,label])=>label);$("languageTitle").textContent="다국어 장소 이름 ("+filled.length+")";$("languagePreview").textContent=filled.length?filled.join(" · "):"등록된 이름 없음"}
 let nameLookupSerial=0;
 const lookupCachePrefix="mlc-osm-v2-";
-const normalizePlaceName=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[\\s・･\u30fb\u00b7()（）\-ー]/g,"");
+const normalizePlaceName=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/\s/g,"").replace(/[・･\u30fb\u00b7()（）\-ー]/g,"");
 function nameMatches(source,candidate){
  const a=normalizePlaceName(source),b=normalizePlaceName(candidate);
  if(!a||!b)return false;
